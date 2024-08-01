@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  app:
+    image: node:14
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/myapp
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app
+    command: sh -c "yarn install && yarn build && yarn start"
+
+  mongo:
+    image: mongo:4.4
+    ports:
+      - "27017:27017"
+
+  redis:
+    image: redis:6
+    ports:
+      - "6379:6379"
