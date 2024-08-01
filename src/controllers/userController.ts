@@ -20,8 +20,15 @@ export const getUser = async (req: Request, res: Response) => {
   const cacheKey = `user:${id}`;
 
   try {
+    let response: any = null;
     // const cachedUser = await redisClient.get(cacheKey);
+
     // if (cachedUser) {
+
+    // response = {
+    //   banck: "Direct from the Cache",
+    //   data: cachedUser,
+    // };
     //   return res.status(200).send(JSON.parse(cachedUser));
     // }
 
@@ -31,7 +38,12 @@ export const getUser = async (req: Request, res: Response) => {
     }
 
     //await redisClient.set(cacheKey, JSON.stringify(user), "EX", 3600);
-    res.status(200).send(user);
+    response = {
+      banck: "Direct from the bank",
+      data: user,
+    };
+
+    res.status(200).send(response);
   } catch (error: any) {
     res.status(500).send({ message: error.message });
   }
