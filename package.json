@@ -5,6 +5,11 @@
   "repository": "git@github.com:DanielSiilva/cache-with-redis-nodejs.git",
   "author": "DanielSiilva <daniellsousa0614@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "ts-node-dev src/index.ts",
+    "build": "tsc",
+    "test": "jest"
+  },
   "dependencies": {
     "express": "^4.19.2",
     "mongoose": "^8.5.2",
