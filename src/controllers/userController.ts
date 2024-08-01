@@ -11,6 +11,7 @@ export const createUsers = async (req: Request, res: Response) => {
     await User.insertMany(users);
     res.status(201).send({ message: "1000 users created" });
   } catch (error: any) {
+    console.error("Error creating users:", error);
     res.status(500).send({ message: error.message });
   }
 };
@@ -20,16 +21,15 @@ export const getUser = async (req: Request, res: Response) => {
   const cacheKey = `user:${id}`;
 
   try {
-    let response: any = null;
     // const cachedUser = await redisClient.get(cacheKey);
 
     // if (cachedUser) {
-
-    // response = {
-    //   banck: "Direct from the Cache",
-    //   data: cachedUser,
-    // };
-    //   return res.status(200).send(JSON.parse(cachedUser));
+    //   const responseCache = {
+    //     source: "Direct from the Cache",
+    //     data: JSON.parse(cachedUser),
+    //   };
+    //   console.log("Returning cached user:", responseCache);
+    //   return res.status(200).send(responseCache);
     // }
 
     const user = await User.findById(id);
@@ -37,14 +37,17 @@ export const getUser = async (req: Request, res: Response) => {
       return res.status(404).send({ message: "User not found" });
     }
 
-    //await redisClient.set(cacheKey, JSON.stringify(user), "EX", 3600);
-    response = {
-      banck: "Direct from the bank",
+    // await redisClient.set(cacheKey, JSON.stringify(user), "EX", 3600);
+
+    const response = {
+      source: "Direct from the Database",
       data: user,
     };
 
+    console.log("Returning user from database:", response);
     res.status(200).send(response);
   } catch (error: any) {
+    console.error("Error fetching user:", error);
     res.status(500).send({ message: error.message });
   }
 };
